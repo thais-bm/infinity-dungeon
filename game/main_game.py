@@ -1,5 +1,6 @@
 import pygame
 import sys
+import phase_1
 
 pygame.init()
 
@@ -32,7 +33,7 @@ while main_menu:
 
     # Game name in Menu
     menu_font = pygame.font.Font('assets/SegaArcadeFont-Regular.ttf', 50)
-    game_name = menu_font.render('<Nome do Game>', True, COLOR_WHITE)
+    game_name = menu_font.render('<Tower of God>', True, COLOR_WHITE)
     game_name_rect = game_name.get_rect(center=(SCREEN_WIDTH//4, SCREEN_HEIGHT//4))
 
     # Options (play)
@@ -77,6 +78,7 @@ while main_menu:
         if event.type == pygame.MOUSEBUTTONDOWN:
             if play_button_rect.collidepoint(MENU_MOUSE_POS):
                 print("Play button clicked!")
+                phase_1.iniciar()
             if exit_button_rect.collidepoint(MENU_MOUSE_POS):
                 print("Exit button clicked!")
                 main_menu = False
