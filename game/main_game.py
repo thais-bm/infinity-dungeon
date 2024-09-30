@@ -77,10 +77,8 @@ while main_menu:
 
         if event.type == pygame.MOUSEBUTTONDOWN:
             if play_button_rect.collidepoint(MENU_MOUSE_POS):
-                print("Play button clicked!")
                 phase_1.iniciar()
             if exit_button_rect.collidepoint(MENU_MOUSE_POS):
-                print("Exit button clicked!")
                 main_menu = False
 
     # Draw items on screen
