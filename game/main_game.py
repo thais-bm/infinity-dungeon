@@ -33,7 +33,7 @@ while main_menu:
 
     # Game name in Menu
     menu_font = pygame.font.Font('assets/SegaArcadeFont-Regular.ttf', 50)
-    game_name = menu_font.render('<Tower of God>', True, COLOR_WHITE)
+    game_name = menu_font.render('Infinite Dungeon', True, COLOR_WHITE)
     game_name_rect = game_name.get_rect(center=(SCREEN_WIDTH//4, SCREEN_HEIGHT//4))
 
     # Options (play)
