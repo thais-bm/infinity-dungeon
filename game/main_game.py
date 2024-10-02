@@ -1,6 +1,6 @@
 import pygame
-import sys
 import phase_1
+import sys
 
 pygame.init()
 
@@ -22,7 +22,31 @@ pygame.display.set_caption("Tower Of God")
 
 # Menu loop
 main_menu = True
+ins = True
 game_clock = pygame.time.Clock()
+
+
+def how_to_play():
+    bg_img = pygame.image.load('assets/ins_basic.png')
+    while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    break
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        break
+
+            screen.blit(bg_img, (0, 0))
+            pygame.display.flip()
+
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_SPACE]:
+                break
+
+    pygame.quit()
+    phase_1.iniciar()
+    sys.exit()
+
 
 while main_menu:
     # Menu background
@@ -77,7 +101,7 @@ while main_menu:
 
         if event.type == pygame.MOUSEBUTTONDOWN:
             if play_button_rect.collidepoint(MENU_MOUSE_POS):
-                phase_1.iniciar()
+                how_to_play()
             if exit_button_rect.collidepoint(MENU_MOUSE_POS):
                 main_menu = False
 
