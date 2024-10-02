@@ -23,6 +23,7 @@ O que falta:
 
 
 A parte urgente (?)
+-> Dar um jeito de atirar pros lados
 -> Deixar tudo isso linkado ao maximo a matriz (pa liberar ctrl_C e ctrl_v)
 -> Desbugar o contador de vida
 -> TINHA ESQUECIDO: A BALA PRECISA COLIDIR COM A PAREDE E REBATER 
@@ -35,8 +36,6 @@ Opcional
 -> Naturalizar a mov dos monstros hihi
 
 O QUE FOI FEITO, só que PRECISA DE TESTES
--> É possivel atirar para os lados, mas é preciso corrigir ao atirar para baixo, a bala não desaparece e fica no fundo
-    da tela ao atirar para baixo
 -> Evitar que os monstros comecem a colidir entre si 
 -> Adicionar colisão dos monstros com paredes
 """
@@ -74,28 +73,17 @@ def iniciar():
     TILE_SIZE = 48
 
     class Bullet(pygame.sprite.Sprite):
-        def __init__(self, x, y, direction):
+        def __init__(self, x, y):
             pygame.sprite.Sprite.__init__(self)
             self.image = pygame.Surface((10, 10))
             self.image.fill((255, 0, 0))
             self.rect = self.image.get_rect(center=(x, y))
             self.speed = 20
-            self.direction = direction
 
         def update(self):
-            if self.direction == 'Up':
-                self.rect.y -= self.speed
-            elif self.direction == 'Down':
-                self.rect.y += self.speed
-            elif self.direction == 'Left':
-                self.rect.x -= self.speed
-            elif self.direction == 'Right':
-                self.rect.x += self.speed
-
-            if self.rect.bottom < 0 or self.rect.top > 724 or self.rect.right < 0 or self.rect.left > 624:
+            self.rect.y -= self.speed
+            if self.rect.bottom < 0:
                 self.kill()
-
-
             for lane in range(len(maze)):
                 for col in range(len(maze[lane])):
                     if maze[lane][col] == 1:
@@ -160,19 +148,15 @@ def iniciar():
             if keys[pygame.K_LEFT] or keys[pygame.K_a]:
                 if can_move(self.position[0], self.position[1] - 1):
                     self.position[1] -= 1
-                    self.direction = 'Left'
             elif keys[pygame.K_RIGHT] or keys[pygame.K_d]:
                 if can_move(self.position[0], self.position[1] + 1):
                     self.position[1] += 1
-                    self.direction = 'Right'
             elif keys[pygame.K_UP] or keys[pygame.K_w]:
                 if can_move(self.position[0] - 1, self.position[1]):
                     self.position[0] -= 1
-                    self.direction = 'Up'
             elif keys[pygame.K_DOWN] or keys[pygame.K_s]:
                 if can_move(self.position[0] + 1, self.position[1]):
                     self.position[0] += 1
-                    self.direction = 'Down'
 
         def take_damage(self):
             if not self.invulnerable:
@@ -242,7 +226,7 @@ def iniciar():
         keys = pygame.key.get_pressed()
         player.move(keys)
         if keys[pygame.K_z]:
-            bullet = Bullet(player.rect.centerx, player.rect.centery, player.direction)  # Create a Bullet
+            bullet = Bullet(player.rect.centerx, player.rect.centery)  # Create a Bullet
             all_bullets.add(bullet)
             print('piu piu')
 
@@ -295,4 +279,4 @@ def iniciar():
     pygame.quit()
     sys.exit()
 
-# iniciar()
+iniciar()
