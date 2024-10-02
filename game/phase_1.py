@@ -152,6 +152,8 @@ def iniciar():
             self.rect = self.image.get_rect()
             self.rect.x = self.position[1] * TILE_SIZE
             self.rect.y = self.position[0] * TILE_SIZE
+            self.last_shot_time = pygame.time.get_ticks()
+            self.shoot_delay = 700
 
         def move(self, keys):
             if keys[pygame.K_LEFT] or keys[pygame.K_a]:
@@ -174,6 +176,14 @@ def iniciar():
                     self.position[0] += 1
                     self.direction = 'Down'
                     self.image = pygame.image.load(f'assets/player_walking/tile000.png').convert_alpha()
+
+        def shoot(self):
+            current_time = pygame.time.get_ticks()
+            if current_time - self.last_shot_time >= self.shoot_delay:
+                bullet = Bullet(self.rect.centerx, self.rect.centery, self.direction)
+                all_bullets.add(bullet)
+                self.last_shot_time = current_time
+                print('piu piu')
 
         def take_damage(self):
             if not self.invulnerable:
@@ -243,9 +253,7 @@ def iniciar():
         keys = pygame.key.get_pressed()
         player.move(keys)
         if keys[pygame.K_z]:
-            bullet = Bullet(player.rect.centerx, player.rect.centery, player.direction)  # Create a Bullet
-            all_bullets.add(bullet)
-            print('piu piu')
+            player.shoot()
 
         # Mudanca mapa
         if player.position[0] < 0:  # top
