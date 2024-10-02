@@ -7,9 +7,8 @@ import sys
 TO-DO LIST
 O que tá pegando
 -> Player anda para as quatro direcoes
--> Player atira apenas para cima
 -> Não há delay de tiro
--> Colisão player parede funciona
+-> Colisão player parede funciona, player-monstro, monstro-monstro
 -> Surge apenas 3 mosntros de forma hardcoded
 
 Da lista do professor só tem 3 mecanicas adicionadas
@@ -20,7 +19,6 @@ Da lista do professor só tem 3 mecanicas adicionadas
 O que falta:
 -> Tiro quebrar blocos (poderia usar isso qnd a saida é uma rachadura na parede)
 -> Tiro atravessa bloco e rebate na parede
-
 
 A parte urgente (?)
 -> Deixar tudo isso linkado ao maximo a matriz (pa liberar ctrl_C e ctrl_v)
@@ -36,7 +34,7 @@ Opcional
 
 O QUE FOI FEITO, só que PRECISA DE TESTES
 -> É possivel atirar para os lados, mas é preciso corrigir ao atirar para baixo, a bala não desaparece e fica no fundo
-    da tela ao atirar para baixo
+    da tela ao atirar para baixo (EDIT: acho que ta corrigido)
 -> Evitar que os monstros comecem a colidir entre si 
 -> Adicionar colisão dos monstros com paredes
 """
@@ -91,10 +89,8 @@ def iniciar():
                 self.rect.x -= self.speed
             elif self.direction == 'Right':
                 self.rect.x += self.speed
-
-            if self.rect.bottom < 0 or self.rect.top > 724 or self.rect.right < 0 or self.rect.left > 624:
+            if self.rect.bottom < 0 or self.rect.top > 623 or self.rect.right < 0 or self.rect.left > 624:
                 self.kill()
-
 
             for lane in range(len(maze)):
                 for col in range(len(maze[lane])):
@@ -183,7 +179,7 @@ def iniciar():
             if not self.invulnerable:
                 self.life -= 1
                 self.invulnerable = True
-                self.image = pygame.image.load(f'assets/player_walking/tile011.png').convert_alpha()
+                self.image = pygame.image.load(f'assets/monster_1/tile000.png').convert_alpha() # So pra piscar
                 print('Invencivel')
                 self.invulnerable_timer = pygame.time.get_ticks()
                 if self.life <= 0:
@@ -300,4 +296,4 @@ def iniciar():
     pygame.quit()
     sys.exit()
 
-# iniciar()
+iniciar()
