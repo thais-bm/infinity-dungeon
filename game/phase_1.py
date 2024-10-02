@@ -69,6 +69,7 @@ def iniciar():
 
     # Colors
     COLOR_WHITE = (255, 255, 255)
+    COLOR_BLACK = (0, 0, 0)
     TILE_SIZE = 48
 
     class Bullet(pygame.sprite.Sprite):
@@ -89,7 +90,7 @@ def iniciar():
                 self.rect.x -= self.speed
             elif self.direction == 'Right':
                 self.rect.x += self.speed
-            if self.rect.bottom < 0 or self.rect.top > 623 or self.rect.right < 0 or self.rect.left > 624:
+            if self.rect.bottom <= 0 or self.rect.top >= 624 or self.rect.right <= 0 or self.rect.left >= 624:
                 self.kill()
 
             for lane in range(len(maze)):
@@ -231,13 +232,13 @@ def iniciar():
     bg = pygame.image.load('assets/assets_wall/Map003.png').convert()
 
     def show_stats():
-        font = pygame.font.Font('assets/SegaArcadeFont-Regular.ttf', 50)
-        life = font.render('A: ', True, COLOR_WHITE)
-        life_number = font.render(str(player.invulnerable), True, COLOR_WHITE)
+        stats_bg = pygame.Surface((624, 100))
+        stats_bg.fill(COLOR_BLACK)
+        font = pygame.font.Font('assets/SegaArcadeFont-Regular.ttf', 30)
+        life = font.render(f'VIDA: {player.life}', True, COLOR_WHITE)
         life_rect = life.get_rect(bottomleft=(100, 700))
-        life_number_rect = life_number.get_rect(bottomleft=(200, 700))
+        screen.blit(stats_bg, (0, 624))
         screen.blit(life, life_rect)
-        screen.blit(life_number, life_number_rect)
 
 
     def can_move(x, y):
