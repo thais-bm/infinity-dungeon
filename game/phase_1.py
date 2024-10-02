@@ -116,8 +116,6 @@ def iniciar():
             row = int(self.rect.y // TILE_SIZE)  # Y - lane
             column = int(self.rect.x // TILE_SIZE)  # X - column
 
-
-
             # Get other monsters position and add in a list
             busy_position = set()
             for monster in all_monsters:
@@ -131,16 +129,19 @@ def iniciar():
             if self.rect.x < player_pos[1] * TILE_SIZE:  # Player is in the left
                 if can_move(column + 1, row) and (column + 1, row) not in busy_position:
                     self.rect.x += self.speed
+                    self.image = pygame.image.load('assets/monster_2/tile006.png').convert_alpha()
             elif self.rect.x > player_pos[1] * TILE_SIZE:  # Player is in the right
                 if can_move(column - 1, row) and (column - 1, row) not in busy_position:
                     self.rect.x -= self.speed
-
+                    self.image = pygame.image.load('assets/monster_2/tile003.png').convert_alpha()
             if self.rect.y < player_pos[0] * TILE_SIZE:  # Player is downwards
                 if can_move(column, row + 1) and (column, row + 1) not in busy_position:
                     self.rect.y += self.speed
+                    self.image = pygame.image.load('assets/monster_2/tile000.png').convert_alpha()
             elif self.rect.y > player_pos[0] * TILE_SIZE:  # Player is upwards
                 if can_move(column, row - 1) and (column, row - 1) not in busy_position:
                     self.rect.y -= self.speed
+                    self.image = pygame.image.load('assets/monster_2/tile009.png').convert_alpha()
 
     # Under construction
     class Player(pygame.sprite.Sprite):
@@ -161,18 +162,22 @@ def iniciar():
                 if can_move(self.position[0], self.position[1] - 1):
                     self.position[1] -= 1
                     self.direction = 'Left'
+                    self.image = pygame.image.load(f'assets/player_walking/tile003.png').convert_alpha()
             elif keys[pygame.K_RIGHT] or keys[pygame.K_d]:
                 if can_move(self.position[0], self.position[1] + 1):
                     self.position[1] += 1
                     self.direction = 'Right'
+                    self.image = pygame.image.load(f'assets/player_walking/tile006.png').convert_alpha()
             elif keys[pygame.K_UP] or keys[pygame.K_w]:
                 if can_move(self.position[0] - 1, self.position[1]):
                     self.position[0] -= 1
                     self.direction = 'Up'
+                    self.image = pygame.image.load(f'assets/player_walking/tile009.png').convert_alpha()
             elif keys[pygame.K_DOWN] or keys[pygame.K_s]:
                 if can_move(self.position[0] + 1, self.position[1]):
                     self.position[0] += 1
                     self.direction = 'Down'
+                    self.image = pygame.image.load(f'assets/player_walking/tile000.png').convert_alpha()
 
         def take_damage(self):
             if not self.invulnerable:
