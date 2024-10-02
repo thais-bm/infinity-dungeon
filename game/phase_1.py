@@ -1,5 +1,8 @@
+import time
+
 import pygame
 import sys
+import random
 
 """
 TO-DO LIST
@@ -14,6 +17,7 @@ Opcional
 -> Animação dos boneco
 -> Fade in e Fade Out
 -> Levar as classes para o classes/player.py n vai precisar repetir as classes aqui presentes 0913292 vezes
+-> Naturalizar a mov dos monstros hihi
 """
 
 
@@ -67,14 +71,14 @@ def iniciar():
                             self.kill()
 
     class Monster(pygame.sprite.Sprite):
-        def __init__(self, x, y):
+        def __init__(self, pos_x, pos_y):
             pygame.sprite.Sprite.__init__(self)
+            self.position = [pos_x, pos_y]
             self.image = pygame.image.load('assets/monster_2/tile000.png').convert_alpha()  # Tamanho do monstro
-            self.rect = self.image.get_rect(topleft=(x, y))
-            self.speed = 2  # Velocidade do monstro
+            self.rect = self.image.get_rect(topleft=(self.position[0] * TILE_SIZE, self.position[1] * TILE_SIZE))
+            self.speed = 5
 
         def update(self, player_pos):
-            # Move em direção ao jogador
             if self.rect.x < player_pos[1] * 48:
                 self.rect.x += self.speed
             elif self.rect.x > player_pos[1] * 48:
@@ -85,6 +89,21 @@ def iniciar():
             elif self.rect.y > player_pos[0] * 48:
                 self.rect.y -= self.speed
 
+
+    class Player(pygame.sprite.Sprite):
+        def __init__(self):
+            pygame.sprite.Sprite.__init__(self)
+            self.life = 3
+            self.position = [7, 6]
+            self.direction = 'Down'  # Up, Down, Left, Right
+            self.sprites = []
+            self.image = pygame.image.load(f'assets/player_walking/tile00{0}.png').convert_alpha()
+            self.rect = self.image.get_rect()
+            self.rect.x = self.position[1] * TILE_SIZE
+            self.rect.y = self.position[0] * TILE_SIZE
+
+
+
     # Player
     player_pos = [7, 6]  # Começa na posição (1, 1)
     TILE_SIZE = 48
@@ -94,9 +113,13 @@ def iniciar():
     all_bullets = pygame.sprite.Group()
     all_monsters = pygame.sprite.Group()
 
-    for i in range(5):  # Número de monstros
-        monster = Monster(1 * TILE_SIZE, 5 * TILE_SIZE + i * 50)  # Colocar monstros em posições diferentes
-        all_monsters.add(monster)
+    # Fiz hardcoded até saber o que fazer
+    monster = Monster(2, 7)
+    all_monsters.add(monster)
+    monster = Monster(6, 2)
+    all_monsters.add(monster)
+    monster = Monster(5, 3)
+    all_monsters.add(monster)
 
     # Menu loop
     game_loop = True
@@ -137,16 +160,16 @@ def iniciar():
 
         # Movimentação do jogador
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_LEFT]:
+        if keys[pygame.K_LEFT] or keys[pygame.K_a]:
             if can_move(player_pos[0], player_pos[1] - 1):
                 player_pos[1] -= 1
-        elif keys[pygame.K_RIGHT]:
+        elif keys[pygame.K_RIGHT] or keys[pygame.K_d]:
             if can_move(player_pos[0], player_pos[1] + 1):
                 player_pos[1] += 1
-        elif keys[pygame.K_UP]:
+        elif keys[pygame.K_UP] or keys[pygame.K_w]:
             if can_move(player_pos[0] - 1, player_pos[1]):
                 player_pos[0] -= 1
-        elif keys[pygame.K_DOWN]:
+        elif keys[pygame.K_DOWN] or keys[pygame.K_s]:
             if can_move(player_pos[0] + 1, player_pos[1]):
                 player_pos[0] += 1
         if keys[pygame.K_z]:
