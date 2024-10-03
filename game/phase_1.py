@@ -76,8 +76,8 @@ def iniciar():
     class Bullet(pygame.sprite.Sprite):
         def __init__(self, x, y, direction):
             pygame.sprite.Sprite.__init__(self)
-            self.image = pygame.Surface((10, 10))
-            self.image.fill((255, 0, 0))
+            self.image = pygame.image.load("assets/magic.png").convert_alpha()
+            self.image = pygame.transform.scale(self.image, (20, 20))
             self.rect = self.image.get_rect(center=(x, y))
             self.speed = 20
             self.direction = direction
@@ -323,4 +323,4 @@ def iniciar():
     pygame.quit()
     sys.exit()
 
-#iniciar()
+iniciar()
