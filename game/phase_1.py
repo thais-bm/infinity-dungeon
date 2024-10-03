@@ -84,13 +84,29 @@ def iniciar():
 
         def update(self):
             if self.direction == 'Up':
+                self.image = pygame.image.load('assets/bullet.png').convert_alpha()
+                self.image = pygame.transform.scale(self.image, (50, 50))
+                self.image = pygame.transform.rotate(self.image, 180)
                 self.rect.y -= self.speed
+                self.rect.x -= 1
             elif self.direction == 'Down':
+                self.image = pygame.image.load('assets/bullet.png').convert_alpha()
+                self.image = pygame.transform.scale(self.image, (50, 50))
+                self.image = pygame.transform.rotate(self.image, 0)
                 self.rect.y += self.speed
+                self.rect.x -= 1
             elif self.direction == 'Left':
+                self.image = pygame.image.load('assets/bullet.png').convert_alpha()
+                self.image = pygame.transform.scale(self.image, (50, 50))
+                self.image = pygame.transform.rotate(self.image, -90)
                 self.rect.x -= self.speed
+                self.rect.x -= 1
             elif self.direction == 'Right':
+                self.image = pygame.image.load('assets/bullet.png').convert_alpha()
+                self.image = pygame.transform.scale(self.image, (50, 50))
+                self.image = pygame.transform.rotate(self.image, 90)
                 self.rect.x += self.speed
+                self.rect.x -= 1
             if self.rect.bottom <= 0 or self.rect.top >= 624 or self.rect.right <= 0 or self.rect.left >= 624:
                 self.kill()
 
@@ -306,3 +322,5 @@ def iniciar():
 
     pygame.quit()
     sys.exit()
+
+#iniciar()
