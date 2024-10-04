@@ -1,7 +1,7 @@
 import random
 import pygame
 import sys
-import phase_2
+import phase_8, phase_9
 
 def iniciar():
     # Matriz
@@ -235,16 +235,14 @@ def iniciar():
         if keys[pygame.K_z]:
             player.shoot()
 
-        # Mudanca mapa
-        if player.position[0] < 0:  # top
-            player.position[0] = 12
-        if player.position[0] > 12:  # Bottom
-            player.position[0] = 0
+        # Mudanca map
         if player.position[1] < 0:  # Left
             player.position[1] = 12
-        if player.position[1] > 12:  # Right
+            phase_9.iniciar()
             pygame.quit()
-            phase_2.iniciar()
+        if player.position[1] > 12:  # Right
+            phase_8.iniciar()
+            pygame.quit()
 
         # Load Map + player + bullet + monster
         screen.blit(bg, (0, 0))
