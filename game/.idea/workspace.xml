@@ -5,19 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9d515853-e0b5-4da6-98ca-236c52e25c94" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/correct_room.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/phase_4.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/phase_5.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/phase_6.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/phase_7.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/phase_8.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/assets_wall/sprite_0.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/assets_wall/sprite_1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/assets_wall/sprite_2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/final_room.py" beforeDir="false" afterPath="$PROJECT_DIR$/final_room.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/phase_1.py" beforeDir="false" afterPath="$PROJECT_DIR$/phase_1.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/phase_2.py" beforeDir="false" afterPath="$PROJECT_DIR$/phase_2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/phase_3.py" beforeDir="false" afterPath="$PROJECT_DIR$/phase_3.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,6 +48,8 @@
     "Python.phase_3.executor": "Run",
     "Python.phase_5.executor": "Run",
     "Python.phase_6.executor": "Run",
+    "Python.phase_7.executor": "Run",
+    "Python.phase_8.executor": "Run",
     "Python.player.executor": "Run",
     "Python.pygame_test.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -74,6 +66,9 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\thais\OneDrive\Documentos\MeusProjetos\game-\game" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\thais\OneDrive\Documentos\MeusProjetos\game-\game" />
     </key>
   </component>
