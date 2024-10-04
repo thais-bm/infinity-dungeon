@@ -1,7 +1,7 @@
 import random
 import pygame
 import sys
-import phase_2
+import phase_2, phase_3, phase_5, phase_6
 
 """
 TO-DO LIST
@@ -47,8 +47,8 @@ def iniciar():
         [1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1],
         [1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1],
         [1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1],
-        [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
-        [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
+        [1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1],
+        [1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
@@ -221,7 +221,7 @@ def iniciar():
             if self.invulnerable:
                 if pygame.time.get_ticks() - self.invulnerable_timer > 5000:  # 2s of invunerable
                     self.invulnerable = False
-                    self.image = pygame.image.load(f'assets/player_walking/tile006.png').convert_alpha()
+                    self.image = pygame.image.load(f'assets/player_walking/tile000.png').convert_alpha()
                     print('Nao ta invencivel')
             self.rect.x = self.position[1] * TILE_SIZE
             self.rect.y = self.position[0] * TILE_SIZE
@@ -275,10 +275,19 @@ def iniciar():
         # Mudanca mapa
         if player.position[0] < 0:  # top
             player.position[0] = 12
+            phase_6.iniciar()
+            pygame.quit()
         if player.position[0] > 12:  # Bottom
             player.position[0] = 0
+            phase_3.iniciar()
+            pygame.quit()
         if player.position[1] < 0:  # Left
             player.position[1] = 12
+            phase_5.iniciar()
+            pygame.quit()
+        if player.position[1] > 12:  # Right
+            phase_2.iniciar()
+            pygame.quit()
 
         # Load Map + player + bullet + monster
         screen.blit(bg, (0, 0))

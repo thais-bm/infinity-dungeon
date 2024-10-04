@@ -11,7 +11,7 @@ def iniciar():
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
+        [1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1],
         [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -239,15 +239,14 @@ def iniciar():
         # Mudanca mapa
         if player.position[0] > 12:  # Bottom
             player.position[0] = 0
-            phase_7.iniciar()
+            phase_1.iniciar()
             pygame.quit()
         if player.position[1] < 0:  # Left
             player.position[1] = 12
             phase_4.iniciar()
             pygame.quit()
         if player.position[1] > 12:  # Right
-            pygame.quit()
-            phase_1.iniciar()
+            phase_7.iniciar()
             pygame.quit()
 
         # Load Map + player + bullet + monster
