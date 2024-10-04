@@ -1,5 +1,4 @@
 import random
-
 import pygame
 import sys
 import phase_2
@@ -323,4 +322,4 @@ def iniciar():
     pygame.quit()
     sys.exit()
 
-iniciar()
+# iniciar()

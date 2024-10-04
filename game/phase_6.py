@@ -3,6 +3,7 @@ import pygame
 import sys
 import phase_2
 
+
 def iniciar():
     # Matriz
     maze = [
@@ -17,9 +18,9 @@ def iniciar():
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
         [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1],
     ]
 
     # Pygame Setup
@@ -208,7 +209,7 @@ def iniciar():
     game_loop = True
 
     # Map
-    bg = pygame.image.load('assets/assets_wall/Map001.png').convert()
+    bg = pygame.image.load('assets/assets_wall/Map004.png').convert()
 
     def show_stats():
         stats_bg = pygame.Surface((624, 100))
@@ -236,8 +237,6 @@ def iniciar():
             player.shoot()
 
         # Mudanca mapa
-        if player.position[0] < 0:  # top
-            player.position[0] = 12
         if player.position[0] > 12:  # Bottom
             player.position[0] = 0
         if player.position[1] < 0:  # Left
@@ -285,4 +284,4 @@ def iniciar():
     pygame.quit()
     sys.exit()
 
-# iniciar()
+iniciar()

@@ -5,8 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9d515853-e0b5-4da6-98ca-236c52e25c94" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/correct_room.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/phase_4.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/phase_5.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/phase_6.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/assets_wall/sprite_0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/assets_wall/sprite_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/assets_wall/sprite_2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/final_room.py" beforeDir="false" afterPath="$PROJECT_DIR$/final_room.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/phase_1.py" beforeDir="false" afterPath="$PROJECT_DIR$/phase_1.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/phase_2.py" beforeDir="false" afterPath="$PROJECT_DIR$/phase_2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/phase_3.py" beforeDir="false" afterPath="$PROJECT_DIR$/phase_3.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,6 +34,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
 }</component>
@@ -36,15 +50,20 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Python.correct_room.executor": "Run",
+    "Python.final_room.executor": "Run",
     "Python.main_game.executor": "Run",
     "Python.phase_1.executor": "Run",
     "Python.phase_2.executor": "Run",
     "Python.phase_3.executor": "Run",
+    "Python.phase_5.executor": "Run",
+    "Python.phase_6.executor": "Run",
     "Python.player.executor": "Run",
     "Python.pygame_test.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/thais/OneDrive/Documentos/MeusProjetos/game-/game",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -53,6 +72,11 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\thais\OneDrive\Documentos\MeusProjetos\game-\game" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="main_game" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <option name="ENV_FILES" value="" />
@@ -62,7 +86,6 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="SDK_NAME" value="Python 3.11 (pythonProject)" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -86,7 +109,6 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="SDK_NAME" value="Python 3.11 (pythonProject)" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
