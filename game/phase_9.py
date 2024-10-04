@@ -320,4 +320,4 @@ def iniciar():
     sys.exit()
 
 
-iniciar()
+#iniciar()

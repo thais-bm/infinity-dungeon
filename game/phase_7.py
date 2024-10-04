@@ -319,4 +319,4 @@ def iniciar():
     pygame.quit()
     sys.exit()
 
-iniciar()
+#iniciar()
