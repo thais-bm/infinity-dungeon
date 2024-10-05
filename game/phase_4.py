@@ -125,7 +125,7 @@ def iniciar():
         def __init__(self):
             pygame.sprite.Sprite.__init__(self)
             self.life = 3
-            self.position = [7, 6]
+            self.position = [11, 6]
             self.invulnerable = False
             self.invulnerable_timer = 0
             self.direction = 'Down'  # Up, Down, Left, Right

@@ -1,7 +1,7 @@
 import random
 import pygame
 import sys
-import phase_2
+import phase_2, phase_4
 
 """
 TO-DO LIST
@@ -47,7 +47,7 @@ def iniciar():
         [1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1],
         [1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1],
         [1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1],
-        [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
+        [1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1],
         [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
         [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -161,7 +161,7 @@ def iniciar():
         def __init__(self):
             pygame.sprite.Sprite.__init__(self)
             self.life = 3
-            self.position = [7, 6]
+            self.position = [7, 10]
             self.invulnerable = False
             self.invulnerable_timer = 0
             self.direction = 'Down'  # Up, Down, Left, Right
@@ -273,10 +273,15 @@ def iniciar():
             player.shoot()
 
         # Mudanca mapa
-        if player.position[0] < 0:  # top
+        if player.position[0] <= 0:  # top
             player.position[0] = 12
+            phase_4.iniciar()
+            pygame.quit()
         if player.position[1] > 12:  # Right
             player.position[1] = 5
+            phase_2.iniciar()
+            pygame.quit()
+
 
         # Load Map + player + bullet + monster
         screen.blit(bg, (0, 0))

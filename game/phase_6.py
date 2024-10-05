@@ -1,7 +1,7 @@
 import random
 import pygame
 import sys
-import phase_4, phase_7, phase_1
+import phase_1, phase_7, phase_10
 
 
 def iniciar():
@@ -243,7 +243,7 @@ def iniciar():
             pygame.quit()
         if player.position[1] < 0:  # Left
             player.position[1] = 12
-            phase_4.iniciar()
+            phase_10.iniciar()
             pygame.quit()
         if player.position[1] > 12:  # Right
             phase_7.iniciar()

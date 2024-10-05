@@ -161,7 +161,7 @@ def iniciar():
         def __init__(self):
             pygame.sprite.Sprite.__init__(self)
             self.life = 3
-            self.position = [7, 6]
+            self.position = [7, 1]
             self.invulnerable = False
             self.invulnerable_timer = 0
             self.direction = 'Down'  # Up, Down, Left, Right
@@ -234,7 +234,7 @@ def iniciar():
     all_monsters = pygame.sprite.Group()
 
     # Fiz hardcoded até saber o que fazer
-    monster = Monster(2, 7)
+    monster = Monster(7, 8)
     all_monsters.add(monster)
     monster = Monster(6, 2)
     all_monsters.add(monster)
