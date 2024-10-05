@@ -1,28 +1,28 @@
 import random
 import pygame
 import sys
+import phase_2, phase_3, phase_5, phase_6
 
-import phase_10, phase_7, phase_8
 
 
 
 def iniciar():
     # Matriz
     maze = [
-        [1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1],
-        [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
-        [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
         [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
-        [1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1],
+        [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
+        [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
+        [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
+        [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
+        [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     ]
 
     # Pygame Setup
@@ -127,7 +127,7 @@ def iniciar():
         def __init__(self):
             pygame.sprite.Sprite.__init__(self)
             self.life = 3
-            self.position = [7, 9]
+            self.position = [7, 6]
             self.invulnerable = False
             self.invulnerable_timer = 0
             self.direction = 'Down'  # Up, Down, Left, Right
@@ -211,7 +211,7 @@ def iniciar():
     game_loop = True
 
     # Map
-    bg = pygame.image.load('assets/assets_wall/Map009.png').convert()
+    bg = pygame.image.load('assets/assets_wall/Map013.png').convert()
 
     def show_stats():
         stats_bg = pygame.Surface((624, 100))
@@ -238,19 +238,6 @@ def iniciar():
         if keys[pygame.K_z]:
             player.shoot()
 
-        # Mudanca mapa
-        if player.position[0] < 0:  # top
-            player.position[0] = 12
-            phase_7.inciar()
-            pygame.quit()
-        if player.position[0] > 12:  # Bottom
-            player.position[0] = 0
-            phase_10.iniciar()
-            pygame.quit()
-        if player.position[1] > 12:  # Right
-            player.position[1] = 3
-            phase_8.iniciar()
-            pygame.quit()
 
         # Load Map + player + bullet + monster
         screen.blit(bg, (0, 0))
@@ -290,6 +277,5 @@ def iniciar():
 
     pygame.quit()
     sys.exit()
-
 
 #iniciar()

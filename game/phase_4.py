@@ -209,7 +209,7 @@ def iniciar():
     game_loop = True
 
     # Map
-    bg = pygame.image.load('assets/assets_wall/Map011.png').convert()
+    bg = pygame.image.load('assets/assets_wall/Map005.png').convert()
 
     def show_stats():
         stats_bg = pygame.Surface((624, 100))
