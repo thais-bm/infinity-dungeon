@@ -1,9 +1,4 @@
 .idea/
 .__pycache__
 *.xml
-game/__pycache__/phase_1.cpython-312.pyc
-game/__pycache__/main_game.cpython-312.pyc
-game/__pycache__/how_to_play.cpython-312.pyc
-game/.idea/workspace.xml
-game/__pycache__/phase_1.cpython-312.pyc
-game/.idea/workspace.xml
+*.pyc
