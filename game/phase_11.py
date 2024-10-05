@@ -86,9 +86,15 @@ def iniciar():
         def __init__(self, pos_x, pos_y):
             pygame.sprite.Sprite.__init__(self)
             self.position = [pos_x, pos_y]
-            self.image = pygame.image.load('assets/monster_2/tile000.png').convert_alpha()  # Tamanho do monstro
-            self.rect = self.image.get_rect(topleft=(self.position[0] * TILE_SIZE, self.position[1] * TILE_SIZE))
-            self.speed = 5
+            self.image = pygame.image.load('assets/final_boss.png').convert_alpha()  # Tamanho do monstro
+            self.image = pygame.transform.scale(self.image, (100, 100))
+            self.rect = self.image.get_rect(
+                center=(
+                    (self.position[0] * TILE_SIZE) + (TILE_SIZE // 2),  # Centraliza na coluna
+                    (self.position[1] * TILE_SIZE) + (TILE_SIZE // 2)  # Centraliza na linha
+                )
+            )
+
 
         def update(self, player_pos):
             # Monster actual position in the 'Maze'
@@ -103,24 +109,7 @@ def iniciar():
                     other_column = int(monster.rect.x // TILE_SIZE)
                     busy_position.add((other_column, other_row))
 
-            # Monsters mov
-            # Collision with walls and other monsters
-            if self.rect.x < player_pos[1] * TILE_SIZE:  # Player is in the left
-                if can_move(column + 1, row) and (column + 1, row) not in busy_position:
-                    self.rect.x += self.speed
-                    self.image = pygame.image.load('assets/monster_2/tile006.png').convert_alpha()
-            elif self.rect.x > player_pos[1] * TILE_SIZE:  # Player is in the right
-                if can_move(column - 1, row) and (column - 1, row) not in busy_position:
-                    self.rect.x -= self.speed
-                    self.image = pygame.image.load('assets/monster_2/tile003.png').convert_alpha()
-            if self.rect.y < player_pos[0] * TILE_SIZE:  # Player is downwards
-                if can_move(column, row + 1) and (column, row + 1) not in busy_position:
-                    self.rect.y += self.speed
-                    self.image = pygame.image.load('assets/monster_2/tile000.png').convert_alpha()
-            elif self.rect.y > player_pos[0] * TILE_SIZE:  # Player is upwards
-                if can_move(column, row - 1) and (column, row - 1) not in busy_position:
-                    self.rect.y -= self.speed
-                    self.image = pygame.image.load('assets/monster_2/tile009.png').convert_alpha()
+
 
     # Under construction
     class Player(pygame.sprite.Sprite):
@@ -200,12 +189,9 @@ def iniciar():
     all_monsters = pygame.sprite.Group()
 
     # Fiz hardcoded até saber o que fazer
-    monster = Monster(2, 7)
+    monster = Monster(6, 4)
     all_monsters.add(monster)
-    monster = Monster(6, 2)
-    all_monsters.add(monster)
-    monster = Monster(5, 3)
-    all_monsters.add(monster)
+
 
     # Menu loop
     game_loop = True
@@ -278,4 +264,4 @@ def iniciar():
     pygame.quit()
     sys.exit()
 
-#iniciar()
+iniciar()
