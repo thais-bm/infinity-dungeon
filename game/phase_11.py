@@ -3,6 +3,13 @@ import pygame
 import sys
 import math
 
+import phase_2, phase_3, phase_5, phase_6
+
+pygame.mixer.init()
+move_fx = pygame.mixer.Sound("assets/audio/Move1.ogg")
+evasion = pygame.mixer.Sound("assets/audio/Evasion.ogg")
+attack = pygame.mixer.Sound("assets/audio/Attack.ogg")
+hit = pygame.mixer.Sound("assets/audio/Slash.ogg")
 
 
 def iniciar():
@@ -192,8 +199,6 @@ def iniciar():
             pygame.draw.rect(surface, "green", (self.x+28, self.y+10, self.width * hp_ratio, self.height))
             screen.blit(self.frame, (self.x, self.y))
 
-
-    # Under construction
     class Player(pygame.sprite.Sprite):
         def __init__(self):
             pygame.sprite.Sprite.__init__(self)
@@ -236,6 +241,7 @@ def iniciar():
             if current_time - self.last_shot_time >= self.shoot_delay:
                 bullet = Bullet(self.rect.centerx, self.rect.centery, self.direction)
                 all_bullets.add(bullet)
+                pygame.mixer.Sound.play(attack)
                 self.last_shot_time = current_time
                 print('piu piu')
 
@@ -243,8 +249,9 @@ def iniciar():
             if not self.invulnerable:
                 self.life -= 1
                 self.invulnerable = True
-                self.image = pygame.image.load(f'assets/monster_1/tile000.png').convert_alpha() # So pra piscar
+                self.image = pygame.image.load(f'assets/player_damaged/tile001.png').convert_alpha() # just blink
                 print('Invencivel')
+                pygame.mixer.Sound.play(evasion)
                 self.invulnerable_timer = pygame.time.get_ticks()
                 if self.life <= 0:
                     print('game ouver hihi')
@@ -288,11 +295,22 @@ def iniciar():
     def show_stats():
         stats_bg = pygame.Surface((624, 100))
         stats_bg.fill(COLOR_BLACK)
+
         font = pygame.font.Font('assets/SegaArcadeFont-Regular.ttf', 30)
+
+        if player.invulnerable:
+            vunerable = 'Sim'
+        else:
+            vunerable = 'Nao'
+
         life = font.render(f'VIDA: {player.life}', True, COLOR_WHITE)
-        life_rect = life.get_rect(bottomleft=(100, 700))
+        power = font.render(f'Invencivel: {vunerable}',True, COLOR_WHITE)
+
+        life_rect = life.get_rect(topleft=(100, 630))
+        power_rect = power.get_rect(topleft=(100, 660))
         screen.blit(stats_bg, (0, 624))
         screen.blit(life, life_rect)
+        screen.blit(power, power_rect)
 
 
     def can_move(x, y):
@@ -331,6 +349,7 @@ def iniciar():
             if hit_monsters:
                 bullet.kill()
                 for monster in hit_monsters:
+                    pygame.mixer.Sound.play(hit)
                     monster.take_damage()
 
         # Colisão entre projéteis do chefe e jogador
