@@ -86,25 +86,25 @@ def iniciar():
         def __init__(self, pos_x, pos_y):
             pygame.sprite.Sprite.__init__(self)
             self.position = [pos_x, pos_y]
-            self.image = pygame.image.load('assets/final_boss.png').convert_alpha()
-            self.image = pygame.transform.scale(self.image, (100, 100))
+            self.image = pygame.image.load('assets/final_boss.png').convert_alpha()  # Imagem do monstro
+            self.image = pygame.transform.scale(self.image, (100, 100))  # Tamanho do monstro
             self.rect = self.image.get_rect(
                 center=(
-                    (self.position[0] * TILE_SIZE) + (TILE_SIZE // 2),
-                    (self.position[1] * TILE_SIZE) + (TILE_SIZE // 2)
+                    (self.position[0] * TILE_SIZE) + (TILE_SIZE // 2),  # Centraliza na coluna
+                    (self.position[1] * TILE_SIZE) + (TILE_SIZE // 2)  # Centraliza na linha
                 )
             )
-            self.health = 30
+            self.health = 30  # O chefe precisa ser atingido 50 vezes
 
         def take_damage(self):
             self.health -= 1
             if self.health <= 0:
-                self.kill()
+                self.kill()  # Remove o monstro quando a vida chegar a 0
 
         def update(self, player_pos):
             # Monster actual position in the 'Maze'
-            row = int(self.rect.y // TILE_SIZE)
-            column = int(self.rect.x // TILE_SIZE)
+            row = int(self.rect.y // TILE_SIZE)  # Y - linha
+            column = int(self.rect.x // TILE_SIZE)  # X - coluna
 
             # Obtém a posição de outros monstros e adiciona a uma lista
             busy_position = set()
@@ -239,13 +239,12 @@ def iniciar():
         all_bullets.update()
         all_monsters.update(player.position)
 
-        # Bullet-Monsters Collision
         for bullet in all_bullets:
-            hit_monsters = pygame.sprite.spritecollide(bullet, all_monsters, False)
+            hit_monsters = pygame.sprite.spritecollide(bullet, all_monsters, False)  # Não remove o monstro ainda
             if hit_monsters:
                 bullet.kill()  # Remove o tiro
                 for monster in hit_monsters:
-                    monster.take_damage()
+                    monster.take_damage()  # O monstro leva dano
 
         # Bullet-Monsters Collision
         for bullet in all_bullets:
