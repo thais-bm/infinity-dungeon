@@ -2,3 +2,5 @@
 .__pycache__
 *.xml
 *.pyc
+/game/.idea
+/game/__pycache__
