@@ -35,6 +35,7 @@ def iniciar():
 
     # Colors
     COLOR_WHITE = (255, 255, 255)
+    COLOR_ZERO = (255, 255, 255, 255)
     COLOR_BLACK = (0, 0, 0)
     TILE_SIZE = 48
 
@@ -95,6 +96,7 @@ def iniciar():
                 )
             )
             self.health = 50  # O chefe precisa ser atingido 50 vezes
+            self.max_health = 50
 
         def take_damage(self):
             self.health -= 1
@@ -114,6 +116,21 @@ def iniciar():
                     other_column = int(monster.rect.x // TILE_SIZE)
                     busy_position.add((other_column, other_row))
 
+    class HealthBar:
+        def __init__(self, x, y, width, height, hp, max_hp):
+            self.x = x
+            self.y = y
+            self.width = width
+            self.height = height
+            self.hp = hp
+            self.max_hp = max_hp
+            self.frame = pygame.image.load('assets/health_bar.png').convert_alpha()
+
+        def draw(self, surface):
+            hp_ratio = self.hp / self.max_hp
+            pygame.draw.rect(surface, "red", (self.x+28, self.y+10, self.width, self.height))
+            pygame.draw.rect(surface, "green", (self.x+28, self.y+10, self.width * hp_ratio, self.height))
+            screen.blit(self.frame, (self.x, self.y))
 
 
     # Under construction
@@ -232,13 +249,14 @@ def iniciar():
 
         # Load Map + player + bullet + monster
         screen.blit(bg, (0, 0))
+        health_bar = HealthBar(72, 55, 440, 10, monster.health, monster.max_health)
         player.update()
         player.draw(screen)
         all_bullets.draw(screen)
         all_monsters.draw(screen)
         all_bullets.update()
         all_monsters.update(player.position)
-
+        health_bar.draw(screen)
         
         for bullet in all_bullets:
             hit_monsters = pygame.sprite.spritecollide(bullet, all_monsters, False)  # Não remove o monstro ainda
