@@ -2,7 +2,7 @@ import random
 import pygame
 import sys
 
-import phase_10, phase_7, phase_8
+import phase_1, phase_3, phase_8
 
 
 
@@ -241,11 +241,11 @@ def iniciar():
         # Mudanca mapa
         if player.position[0] < 0:  # top
             player.position[0] = 12
-            phase_7.inciar()
+            phase_1.iniciar()
             pygame.quit()
         if player.position[0] > 12:  # Bottom
             player.position[0] = 0
-            phase_10.iniciar()
+            phase_3.iniciar()
             pygame.quit()
         if player.position[1] > 12:  # Right
             player.position[1] = 3

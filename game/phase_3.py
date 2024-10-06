@@ -1,7 +1,7 @@
 import random
 import pygame
 import sys
-import phase_6, phase_2
+import phase_4, phase_9
 
 def iniciar():
     # Matriz
@@ -124,7 +124,7 @@ def iniciar():
         def __init__(self):
             pygame.sprite.Sprite.__init__(self)
             self.life = 3
-            self.position = [0, 6]
+            self.position = [1, 6]
             self.invulnerable = False
             self.invulnerable_timer = 0
             self.direction = 'Down'  # Up, Down, Left, Right
@@ -236,13 +236,11 @@ def iniciar():
             player.shoot()
 
         # Mudanca mapa
-        if player.position[0] < 0:  # top
-            player.position[0] = 12
-            phase_6.iniciar()
+        if player.position[0] == 0:  # top
+            phase_4.iniciar()
             pygame.quit()
-        if player.position[1] < 0:  # Left
-            player.position[1] = 12
-            phase_2.iniciar()
+        if player.position[1] == 0:  # Left
+            phase_9.iniciar()
             pygame.quit()
 
 

@@ -281,13 +281,11 @@ def iniciar():
             player.position[0] = 0
             phase_3.iniciar()
             pygame.quit()
-        if player.position[1] < 0:  # Left
+        if player.position[1] == 0:  # Left
             player.position[1] = 12
             phase_5.iniciar()
             pygame.quit()
-        if player.position[1] > 12:  # Right
-            phase_2.iniciar()
-            pygame.quit()
+
 
         # Load Map + player + bullet + monster
         screen.blit(bg, (0, 0))

@@ -116,10 +116,10 @@ def iniciar():
         def __init__(self):
             pygame.sprite.Sprite.__init__(self)
             self.life = 3
-            self.position = [7, 6]
+            self.position = [10, 6]
             self.invulnerable = False
             self.invulnerable_timer = 0
-            self.direction = 'Down'  # Up, Down, Left, Right
+            self.direction = 'Up'  # Up, Down, Left, Right
             self.image = pygame.image.load(f'assets/player_walking/tile00{0}.png').convert_alpha()
             self.rect = self.image.get_rect()
             self.rect.x = self.position[1] * TILE_SIZE
@@ -264,4 +264,4 @@ def iniciar():
     pygame.quit()
     sys.exit()
 
-iniciar()
+#iniciar()
