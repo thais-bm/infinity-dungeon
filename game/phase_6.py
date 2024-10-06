@@ -3,6 +3,11 @@ import pygame
 import sys
 import phase_1, phase_7, phase_10
 
+pygame.mixer.init()
+move_fx = pygame.mixer.Sound("assets/audio/Move1.ogg")
+evasion = pygame.mixer.Sound("assets/audio/Evasion.ogg")
+attack = pygame.mixer.Sound("assets/audio/Attack.ogg")
+hit = pygame.mixer.Sound("assets/audio/Slash.ogg")
 
 def iniciar():
     # Matriz
@@ -163,6 +168,7 @@ def iniciar():
             if current_time - self.last_shot_time >= self.shoot_delay:
                 bullet = Bullet(self.rect.centerx, self.rect.centery, self.direction)
                 all_bullets.add(bullet)
+                pygame.mixer.Sound.play(attack)
                 self.last_shot_time = current_time
                 print('piu piu')
 
@@ -170,8 +176,9 @@ def iniciar():
             if not self.invulnerable:
                 self.life -= 1
                 self.invulnerable = True
-                self.image = pygame.image.load(f'assets/monster_1/tile000.png').convert_alpha() # So pra piscar
+                self.image = pygame.image.load(f'assets/player_damaged/tile001.png').convert_alpha()  # just blink
                 print('Invencivel')
+                pygame.mixer.Sound.play(evasion)
                 self.invulnerable_timer = pygame.time.get_ticks()
                 if self.life <= 0:
                     print('game ouver hihi')
@@ -198,12 +205,14 @@ def iniciar():
     all_monsters = pygame.sprite.Group()
 
     # Fiz hardcoded até saber o que fazer
-    monster = Monster(2, 7)
-    all_monsters.add(monster)
-    monster = Monster(6, 2)
-    all_monsters.add(monster)
-    monster = Monster(5, 3)
-    all_monsters.add(monster)
+    for i in range(9):
+        random_x = random.randint(1, 10)
+        random_y = random.randint(1, 10)
+        while (maze[random_x][random_y] != 0):
+            random_x = random.randint(1, 10)
+            random_y = random.randint(1, 10)
+        monster = Monster(random_x, random_y)
+        all_monsters.add(monster)
 
     # Menu loop
     game_loop = True
@@ -214,11 +223,22 @@ def iniciar():
     def show_stats():
         stats_bg = pygame.Surface((624, 100))
         stats_bg.fill(COLOR_BLACK)
+
         font = pygame.font.Font('assets/SegaArcadeFont-Regular.ttf', 30)
+
+        if player.invulnerable:
+            vunerable = 'Sim'
+        else:
+            vunerable = 'Nao'
+
         life = font.render(f'VIDA: {player.life}', True, COLOR_WHITE)
-        life_rect = life.get_rect(bottomleft=(100, 700))
+        power = font.render(f'Invencivel: {vunerable}',True, COLOR_WHITE)
+
+        life_rect = life.get_rect(topleft=(100, 630))
+        power_rect = power.get_rect(topleft=(100, 660))
         screen.blit(stats_bg, (0, 624))
         screen.blit(life, life_rect)
+        screen.blit(power, power_rect)
 
 
     def can_move(x, y):
@@ -239,13 +259,16 @@ def iniciar():
         # Mudanca mapa
         if player.position[0] > 12:  # Bottom
             player.position[0] = 0
+            pygame.mixer.Sound.play(move_fx)
             phase_1.iniciar()
             pygame.quit()
         if player.position[1] < 0:  # Left
             player.position[1] = 12
+            pygame.mixer.Sound.play(move_fx)
             phase_10.iniciar()
             pygame.quit()
         if player.position[1] > 12:  # Right
+            pygame.mixer.Sound.play(move_fx)
             phase_7.iniciar()
             pygame.quit()
 
@@ -262,6 +285,7 @@ def iniciar():
         for bullet in all_bullets:
             hit_monsters = pygame.sprite.spritecollide(bullet, all_monsters, True)
             if hit_monsters:
+                pygame.mixer.Sound.play(hit)
                 bullet.kill()
         # Monster-Player collision
         for monster in all_monsters:

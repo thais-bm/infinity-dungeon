@@ -25,6 +25,9 @@ main_menu = True
 ins = True
 game_clock = pygame.time.Clock()
 
+# Song
+sound = pygame.mixer.Sound("assets/audio/mists-in-the-elven-lands-127808.mp3")
+pygame.mixer.Sound.play(sound, loops=-1)
 
 def how_to_play():
     bg_img = pygame.image.load('assets/ins_basic.png')

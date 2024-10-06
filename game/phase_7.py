@@ -3,42 +3,11 @@ import pygame
 import sys
 import phase_2, phase_3, phase_5, phase_6
 
-"""
-TO-DO LIST
-O que tá pegando
--> Player anda para as quatro direcoes
--> Não há delay de tiro
--> Colisão player parede funciona, player-monstro, monstro-monstro
--> Surge apenas 3 mosntros de forma hardcoded
-
-Da lista do professor só tem 3 mecanicas adicionadas
--> Visao TOP-DOWN
--> Personagem movimenta nas quatro direcoes
--> Personagem atira (o inimigo nao, mas n sei se os dois precisam atirar)
-
-O que falta:
--> Tiro quebrar blocos (poderia usar isso qnd a saida é uma rachadura na parede)
--> Tiro atravessa bloco e rebate na parede
-
-A parte urgente (?)
--> Deixar tudo isso linkado ao maximo a matriz (pa liberar ctrl_C e ctrl_v)
--> Desbugar o contador de vida
--> TINHA ESQUECIDO: A BALA PRECISA COLIDIR COM A PAREDE E REBATER 
--> E a bala precisa atravessar bloco, isso pode ficar pra alguma das salas
-
-Opcional
--> Animação dos boneco
--> Fade in e Fade Out
--> Levar as classes para o classes/player.py n vai precisar repetir as classes aqui presentes 0913292 vezes
--> Naturalizar a mov dos monstros hihi
-
-O QUE FOI FEITO, só que PRECISA DE TESTES
--> É possivel atirar para os lados, mas é preciso corrigir ao atirar para baixo, a bala não desaparece e fica no fundo
-    da tela ao atirar para baixo (EDIT: acho que ta corrigido)
--> Evitar que os monstros comecem a colidir entre si 
--> Adicionar colisão dos monstros com paredes
-"""
-
+pygame.mixer.init()
+move_fx = pygame.mixer.Sound("assets/audio/Move1.ogg")
+evasion = pygame.mixer.Sound("assets/audio/Evasion.ogg")
+attack = pygame.mixer.Sound("assets/audio/Attack.ogg")
+hit = pygame.mixer.Sound("assets/audio/Slash.ogg")
 
 def iniciar():
     # Matriz
@@ -199,6 +168,7 @@ def iniciar():
             if current_time - self.last_shot_time >= self.shoot_delay:
                 bullet = Bullet(self.rect.centerx, self.rect.centery, self.direction)
                 all_bullets.add(bullet)
+                pygame.mixer.Sound.play(attack)
                 self.last_shot_time = current_time
                 print('piu piu')
 
@@ -206,7 +176,8 @@ def iniciar():
             if not self.invulnerable:
                 self.life -= 1
                 self.invulnerable = True
-                self.image = pygame.image.load(f'assets/monster_1/tile000.png').convert_alpha() # So pra piscar
+                self.image = pygame.image.load(f'assets/player_damaged/tile001.png').convert_alpha()  # just blink
+                pygame.mixer.Sound.play(evasion)
                 print('Invencivel')
                 self.invulnerable_timer = pygame.time.get_ticks()
                 if self.life <= 0:
@@ -234,12 +205,14 @@ def iniciar():
     all_monsters = pygame.sprite.Group()
 
     # Fiz hardcoded até saber o que fazer
-    monster = Monster(7, 8)
-    all_monsters.add(monster)
-    monster = Monster(6, 2)
-    all_monsters.add(monster)
-    monster = Monster(5, 3)
-    all_monsters.add(monster)
+    for i in range(9):
+        random_x = random.randint(0, 13)
+        random_y = random.randint(0, 13)
+        while (maze[random_x][random_y] != 0):
+            random_x = random.randint(0, 13)
+            random_y = random.randint(0, 13)
+        monster = Monster(random_x, random_y)
+        all_monsters.add(monster)
 
     # Menu loop
     game_loop = True
@@ -250,11 +223,22 @@ def iniciar():
     def show_stats():
         stats_bg = pygame.Surface((624, 100))
         stats_bg.fill(COLOR_BLACK)
+
         font = pygame.font.Font('assets/SegaArcadeFont-Regular.ttf', 30)
+
+        if player.invulnerable:
+            vunerable = 'Sim'
+        else:
+            vunerable = 'Nao'
+
         life = font.render(f'VIDA: {player.life}', True, COLOR_WHITE)
-        life_rect = life.get_rect(bottomleft=(100, 700))
+        power = font.render(f'Invencivel: {vunerable}',True, COLOR_WHITE)
+
+        life_rect = life.get_rect(topleft=(100, 630))
+        power_rect = power.get_rect(topleft=(100, 660))
         screen.blit(stats_bg, (0, 624))
         screen.blit(life, life_rect)
+        screen.blit(power, power_rect)
 
 
     def can_move(x, y):
@@ -274,14 +258,17 @@ def iniciar():
 
         # Mudanca mapa
         if player.position[0] < 0:  # top
+            pygame.mixer.Sound.play(move_fx)
             player.position[0] = 12
             phase_6.iniciar()
             pygame.quit()
         if player.position[0] > 12:  # Bottom
+            pygame.mixer.Sound.play(move_fx)
             player.position[0] = 0
             phase_3.iniciar()
             pygame.quit()
         if player.position[1] == 0:  # Left
+            pygame.mixer.Sound.play(move_fx)
             player.position[1] = 12
             phase_5.iniciar()
             pygame.quit()
@@ -300,6 +287,7 @@ def iniciar():
         for bullet in all_bullets:
             hit_monsters = pygame.sprite.spritecollide(bullet, all_monsters, True)
             if hit_monsters:
+                pygame.mixer.Sound.play(hit)
                 bullet.kill()
         # Monster-Player collision
         for monster in all_monsters:
