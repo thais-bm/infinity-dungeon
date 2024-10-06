@@ -1,8 +1,7 @@
 import random
 import pygame
 import sys
-import phase_2, phase_3, phase_5, phase_6
-
+import math
 
 
 
@@ -83,38 +82,99 @@ def iniciar():
                         if self.rect.colliderect(wall_rect):
                             self.kill()
 
+    class BossProjectile(pygame.sprite.Sprite):
+        def __init__(self, x, y, direction, angle=0):
+            pygame.sprite.Sprite.__init__(self)
+            self.image = pygame.image.load("assets/magic.png").convert_alpha()
+            self.image = pygame.transform.scale(self.image, (20, 20))
+            self.rect = self.image.get_rect(center=(x, y))
+            self.speed = 5
+            self.direction = direction
+            self.angle = math.radians(angle)  # Convertemos o ângulo para radianos
+
+        def update(self):
+            if self.direction == 'Down':
+                self.rect.x += math.sin(self.angle) * self.speed
+                self.rect.y += math.cos(self.angle) * self.speed
+            elif self.direction == 'Left':
+                self.rect.x -= self.speed
+            elif self.direction == 'Right':
+                self.rect.x += self.speed
+
+            # Remove o projétil se sair da tela
+            if (self.rect.bottom <= 0 or self.rect.top >= 624 or
+                    self.rect.right <= 0 or self.rect.left >= 624):
+                self.kill()
+
+            # Colisão com paredes
+            for lane in range(len(maze)):
+                for col in range(len(maze[lane])):
+                    if maze[lane][col] == 1:
+                        wall_rect = pygame.Rect(col * TILE_SIZE, lane * TILE_SIZE, TILE_SIZE, TILE_SIZE)
+                        if self.rect.colliderect(wall_rect):
+                            self.kill()
+
+    all_boss_projectiles = pygame.sprite.Group()
+
     class Monster(pygame.sprite.Sprite):
         def __init__(self, pos_x, pos_y):
             pygame.sprite.Sprite.__init__(self)
             self.position = [pos_x, pos_y]
-            self.image = pygame.image.load('assets/final_boss.png').convert_alpha()  # Imagem do monstro
-            self.image = pygame.transform.scale(self.image, (100, 100))  # Tamanho do monstro
+            self.image = pygame.image.load('assets/final_boss.png').convert_alpha()
+            self.image = pygame.transform.scale(self.image, (100, 100))
             self.rect = self.image.get_rect(
                 center=(
-                    (self.position[0] * TILE_SIZE) + (TILE_SIZE // 2),  # Centraliza na coluna
-                    (self.position[1] * TILE_SIZE) + (TILE_SIZE // 2)  # Centraliza na linha
+                    (self.position[0] * TILE_SIZE) + (TILE_SIZE // 2),
+                    (self.position[1] * TILE_SIZE) + (TILE_SIZE // 2)
                 )
             )
-            self.health = 50  # O chefe precisa ser atingido 50 vezes
+            self.health = 50
             self.max_health = 50
+            self.current_moveset = None
+            self.moveset_timer = 0
+            self.moveset_delay = 3000  # 3 segundos entre movesets
+            self.projectile_timer = 0
+            self.projectile_delay = 750
 
         def take_damage(self):
             self.health -= 1
             if self.health <= 0:
-                self.kill()  # Remove o monstro quando a vida chegar a 0
+                self.kill()
 
         def update(self, player_pos):
-            # Monster actual position in the 'Maze'
-            row = int(self.rect.y // TILE_SIZE)  # Y - linha
-            column = int(self.rect.x // TILE_SIZE)  # X - coluna
+            current_time = pygame.time.get_ticks()
 
-            # Obtém a posição de outros monstros e adiciona a uma lista
-            busy_position = set()
-            for monster in all_monsters:
-                if monster != self:
-                    other_row = int(monster.rect.y // TILE_SIZE)
-                    other_column = int(monster.rect.x // TILE_SIZE)
-                    busy_position.add((other_column, other_row))
+            # Alterna movesets
+            if current_time - self.moveset_timer > self.moveset_delay:
+                self.current_moveset = random.choice(['triple_shot', 'spread_shot', 'circle_shot'])
+                self.moveset_timer = current_time
+
+            # Executa o moveset atual
+            if current_time - self.projectile_timer > self.projectile_delay:
+                if self.current_moveset == 'triple_shot':
+                    self.triple_shot()
+                elif self.current_moveset == 'spread_shot':
+                    self.spread_shot()
+                elif self.current_moveset == 'circle_shot':
+                    self.circle_shot()
+                self.projectile_timer = current_time
+
+        def triple_shot(self):
+            directions = ['Left', 'Down', 'Right']
+            for direction in directions:
+                projectile = BossProjectile(self.rect.centerx, self.rect.centery, direction)
+                all_boss_projectiles.add(projectile)
+
+        def spread_shot(self):
+            angles = [-45, -30, -15, 0, 15, 30, 45]
+            for angle in angles:
+                projectile = BossProjectile(self.rect.centerx, self.rect.centery, 'Down', angle)
+                all_boss_projectiles.add(projectile)
+
+        def circle_shot(self):
+            for angle in range(0, 360, 45):
+                projectile = BossProjectile(self.rect.centerx, self.rect.centery, 'Down', angle)
+                all_boss_projectiles.add(projectile)
 
     class HealthBar:
         def __init__(self, x, y, width, height, hp, max_hp):
@@ -210,7 +270,11 @@ def iniciar():
     all_bullets = pygame.sprite.Group()
     all_monsters = pygame.sprite.Group()
 
-    # Fiz hardcoded até saber o que fazer
+    boss_projectile_hits = pygame.sprite.spritecollide(player, all_boss_projectiles, True)
+    if boss_projectile_hits:
+        player.take_damage()
+
+
     monster = Monster(6, 4)
     all_monsters.add(monster)
 
@@ -246,48 +310,46 @@ def iniciar():
         if keys[pygame.K_z]:
             player.shoot()
 
-
         # Load Map + player + bullet + monster
         screen.blit(bg, (0, 0))
         health_bar = HealthBar(72, 55, 440, 10, monster.health, monster.max_health)
         player.update()
+        all_bullets.update()
+        all_monsters.update(player.position)
+        all_boss_projectiles.update()
+
+       # Draw elements
         player.draw(screen)
         all_bullets.draw(screen)
         all_monsters.draw(screen)
-        all_bullets.update()
-        all_monsters.update(player.position)
+        all_boss_projectiles.draw(screen)
         health_bar.draw(screen)
-        
+
+        # Collisions
         for bullet in all_bullets:
-            hit_monsters = pygame.sprite.spritecollide(bullet, all_monsters, False)  # Não remove o monstro ainda
+            hit_monsters = pygame.sprite.spritecollide(bullet, all_monsters, False)
             if hit_monsters:
-                bullet.kill()  # Remove o tiro
+                bullet.kill()
                 for monster in hit_monsters:
                     monster.take_damage()
 
-                        # Monster-Player collision
+        # Colisão entre projéteis do chefe e jogador
+        boss_projectile_hits = pygame.sprite.spritecollide(player, all_boss_projectiles, True)
+        if boss_projectile_hits:
+            player.take_damage()
+
+        # Monster-Player collision
         for monster in all_monsters:
             if player.rect.colliderect(monster.rect):
-                # Ideal -> invunerabilidade
                 player.take_damage()
 
         show_stats()
 
         if player.life <= 0:
-            print("Game ouver")
+            print("Game over")
             game_loop = False
 
-        # Debub Monster part
-        print('Debug mode')
-        for index, monster in enumerate(all_monsters):
-            print(f'{index} ---> X: {monster.rect.x // TILE_SIZE} and Y: {monster.rect.y // TILE_SIZE}')
-
         pygame.display.update()
-        pygame.display.flip()
-
         pygame.time.Clock().tick(10)
-
-    pygame.quit()
-    sys.exit()
 
 iniciar()
