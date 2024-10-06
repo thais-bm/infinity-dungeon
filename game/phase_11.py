@@ -94,7 +94,7 @@ def iniciar():
                     (self.position[1] * TILE_SIZE) + (TILE_SIZE // 2)  # Centraliza na linha
                 )
             )
-            self.health = 30  # O chefe precisa ser atingido 50 vezes
+            self.health = 50  # O chefe precisa ser atingido 50 vezes
 
         def take_damage(self):
             self.health -= 1
@@ -239,19 +239,15 @@ def iniciar():
         all_bullets.update()
         all_monsters.update(player.position)
 
+        
         for bullet in all_bullets:
             hit_monsters = pygame.sprite.spritecollide(bullet, all_monsters, False)  # Não remove o monstro ainda
             if hit_monsters:
                 bullet.kill()  # Remove o tiro
                 for monster in hit_monsters:
-                    monster.take_damage()  # O monstro leva dano
+                    monster.take_damage()
 
-        # Bullet-Monsters Collision
-        for bullet in all_bullets:
-            hit_monsters = pygame.sprite.spritecollide(bullet, all_monsters, True)
-            if hit_monsters:
-                bullet.kill()
-        # Monster-Player collision
+                        # Monster-Player collision
         for monster in all_monsters:
             if player.rect.colliderect(monster.rect):
                 # Ideal -> invunerabilidade
