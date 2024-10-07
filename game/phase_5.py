@@ -10,7 +10,7 @@ evasion = pygame.mixer.Sound("assets/audio/Evasion.ogg")
 attack = pygame.mixer.Sound("assets/audio/Attack.ogg")
 hit = pygame.mixer.Sound("assets/audio/Slash.ogg")
 
-def iniciar():
+def iniciar(life):
     # Matriz
     maze = [
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -130,7 +130,7 @@ def iniciar():
     class Player(pygame.sprite.Sprite):
         def __init__(self):
             pygame.sprite.Sprite.__init__(self)
-            self.life = 3
+            self.life = life
             self.position = [7, 12]
             self.invulnerable = False
             self.invulnerable_timer = 0
@@ -261,11 +261,11 @@ def iniciar():
         if player.position[0] > 12:  # Bottom
             player.position[0] = 0
             pygame.mixer.Sound.play(move_fx)
-            phase_3.iniciar()
+            phase_3.iniciar(player.life)
             pygame.quit()
         if player.position[1] > 12:  # Right
             pygame.mixer.Sound.play(move_fx)
-            phase_2.iniciar()
+            phase_2.iniciar(player.life)
             pygame.quit()
 
         # Load Map + player + bullet + monster
@@ -292,8 +292,26 @@ def iniciar():
         show_stats()
 
         if player.life <= 0:
-            print("Game ouver")
-            game_loop = False
+            pygame.mixer.stop()
+            bg_img = pygame.image.load('assets/game_over.png')
+            gameover = pygame.mixer.Sound("assets/audio/Gameover.ogg")
+            pygame.mixer.Sound.play(gameover)
+            while True:
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        break
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_ESCAPE:
+                            break
+
+                screen.blit(bg_img, (0, 0))
+                pygame.display.flip()
+
+                keys = pygame.key.get_pressed()
+                if keys[pygame.K_SPACE]:
+                    break
+            pygame.quit()
+            sys.exit()
 
         # Debub Monster part
         print('Debug mode')

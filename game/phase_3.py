@@ -9,7 +9,7 @@ evasion = pygame.mixer.Sound("assets/audio/Evasion.ogg")
 attack = pygame.mixer.Sound("assets/audio/Attack.ogg")
 hit = pygame.mixer.Sound("assets/audio/Slash.ogg")
 
-def iniciar():
+def iniciar(life):
     # Matriz
     maze = [
         [1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1],
@@ -129,7 +129,7 @@ def iniciar():
     class Player(pygame.sprite.Sprite):
         def __init__(self):
             pygame.sprite.Sprite.__init__(self)
-            self.life = 3
+            self.life = life
             self.position = [1, 6]
             self.invulnerable = False
             self.invulnerable_timer = 0
@@ -204,22 +204,15 @@ def iniciar():
     all_bullets = pygame.sprite.Group()
     all_monsters = pygame.sprite.Group()
 
-    # Fiz hardcoded até saber o que fazer
-    monster = Monster(4, 7)
-    all_monsters.add(monster)
-    monster = Monster(6, 5)
-    all_monsters.add(monster)
-    monster = Monster(5, 3)
-    all_monsters.add(monster)
-    monster = Monster(5, 6)
-    all_monsters.add(monster)
-    monster = Monster(7, 9)
-    all_monsters.add(monster)
-    monster = Monster(11, 6)
-    all_monsters.add(monster)
-    monster = Monster(9, 8)
-    all_monsters.add(monster)
-
+    # mob
+    for i in range(7):
+        random_x = random.randint(0, 13)
+        random_y = random.randint(0, 13)
+        while (maze[random_x][random_y] != 0):
+            random_x = random.randint(0, 13)
+            random_y = random.randint(0, 13)
+        monster = Monster(random_x, random_y)
+        all_monsters.add(monster)
 
     # Menu loop
     game_loop = True
@@ -266,11 +259,11 @@ def iniciar():
         # Mudanca mapa
         if player.position[0] == 0:  # top
             pygame.mixer.Sound.play(move_fx)
-            phase_4.iniciar()
+            phase_4.iniciar(player.life)
             pygame.quit()
         if player.position[1] == 0:  # Left
             pygame.mixer.Sound.play(move_fx)
-            phase_9.iniciar()
+            phase_9.iniciar(player.life)
             pygame.quit()
 
 
@@ -298,8 +291,26 @@ def iniciar():
         show_stats()
 
         if player.life <= 0:
-            print("Game ouver")
-            game_loop = False
+            pygame.mixer.stop()
+            bg_img = pygame.image.load('assets/game_over.png')
+            gameover = pygame.mixer.Sound("assets/audio/Gameover.ogg")
+            pygame.mixer.Sound.play(gameover)
+            while True:
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        break
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_ESCAPE:
+                            break
+
+                screen.blit(bg_img, (0, 0))
+                pygame.display.flip()
+
+                keys = pygame.key.get_pressed()
+                if keys[pygame.K_SPACE]:
+                    break
+            pygame.quit()
+            sys.exit()
 
         # Debub Monster part
         print('Debug mode')

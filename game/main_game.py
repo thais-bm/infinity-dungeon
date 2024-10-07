@@ -26,7 +26,8 @@ ins = True
 game_clock = pygame.time.Clock()
 
 # Song
-sound = pygame.mixer.Sound("assets/audio/mists-in-the-elven-lands-127808.mp3")
+sound = pygame.mixer.Sound("assets/audio/mists-in-the-elven-lands-127808a.ogg")
+decision = pygame.mixer.Sound("assets/audio/Decision.ogg")
 pygame.mixer.Sound.play(sound, loops=-1)
 
 def how_to_play():
@@ -47,38 +48,45 @@ def how_to_play():
                 break
 
     pygame.quit()
-    phase_1.iniciar()
+    phase_1.iniciar(3)
     sys.exit()
 
+play_sound_played = False
+exit_sound_played = False
 
 while main_menu:
     # Menu background
-    screen.fill(COLOR_BLACK)
+    bg = pygame.image.load("assets/menu.png")
+    screen.blit(bg, (0, 0))
 
     # Mouse position
     MENU_MOUSE_POS = pygame.mouse.get_pos()
 
     # Game name in Menu
-    menu_font = pygame.font.Font('assets/SegaArcadeFont-Regular.ttf', 50)
+    menu_font = pygame.font.Font('assets/SegaArcadeFont-Regular.ttf', 60)
     game_name = menu_font.render('Infinite Dungeon', True, COLOR_WHITE)
-    game_name_rect = game_name.get_rect(center=(SCREEN_WIDTH//4, SCREEN_HEIGHT//4))
+    game_name_rect = game_name.get_rect(center=(SCREEN_WIDTH//4.5, SCREEN_HEIGHT//4))
 
     # Options (play)
-    play_font = pygame.font.Font('assets/SegaArcadeFont-Regular.ttf', 40)
+    play_font = pygame.font.Font('assets/SegaArcadeFont-Regular.ttf', 50)
     play_button = play_font.render(play_text, True, COLOR_WHITE)
     play_button_rect = play_button.get_rect()
-    play_button_rect.center = (SCREEN_WIDTH//4, 420)
+    play_button_rect.center = (SCREEN_WIDTH//4.5, 420)
 
     # Options (Exit)
     exit_button = play_font.render(exit_text, True, COLOR_WHITE)
     exit_button_rect = exit_button.get_rect()
-    exit_button_rect.center = (SCREEN_WIDTH//4, 480)
+    exit_button_rect.center = (SCREEN_WIDTH//4.5, 480)
 
     # Change color and adds a > when mouse is above a button
     if play_button_rect.collidepoint(MENU_MOUSE_POS):
         play_button = play_font.render(play_text, True, COLOR_PINK)
         if play_text.find('- ') != -1:
             play_text = play_text
+            if not play_sound_played:
+                decision.play(0, 0)
+                play_sound_played = True
+                exit_sound_played = False
         else:
             play_text = '- ' + play_text
     else:
@@ -88,6 +96,10 @@ while main_menu:
         exit_button = play_font.render(exit_text, True, COLOR_PINK)
         if exit_text.find('- ') != -1:
             exit_text = exit_text
+            if not exit_sound_played:
+                decision.play(0, 0)
+                exit_sound_played = True
+                play_sound_played = False
         else:
             exit_text = '- ' + exit_text
     else:

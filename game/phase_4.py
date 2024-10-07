@@ -9,7 +9,7 @@ attack = pygame.mixer.Sound("assets/audio/Attack.ogg")
 hit = pygame.mixer.Sound("assets/audio/Slash.ogg")
 brekout = pygame.mixer.Sound("assets/audio/Break.ogg")
 
-def iniciar():
+def iniciar(life):
     # Matriz
     maze = [
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -128,7 +128,7 @@ def iniciar():
     class Player(pygame.sprite.Sprite):
         def __init__(self):
             pygame.sprite.Sprite.__init__(self)
-            self.life = 3
+            self.life = life
             self.position = [11, 6]
             self.invulnerable = False
             self.invulnerable_timer = 0
@@ -270,16 +270,16 @@ def iniciar():
         if player.position[0] < 3:  # top
             player.position[0] = 12
             pygame.mixer.Sound.play(move_fx)
-            phase_11.iniciar()
+            phase_11.iniciar(player.life)
             pygame.quit()
         if player.position[0] > 12:  # Bottom
             player.position[0] = 0
             pygame.mixer.Sound.play(move_fx)
-            phase_1.iniciar()
+            phase_1.iniciar(player.life)
             pygame.quit()
         if player.position[1] < 1:  # Left
             pygame.mixer.Sound.play(move_fx)
-            phase_9.iniciar()
+            phase_9.iniciar(player.life)
             pygame.quit()
 
         secret_pass = pygame.Rect(6 * TILE_SIZE, 3 * TILE_SIZE, TILE_SIZE, TILE_SIZE)
@@ -321,8 +321,26 @@ def iniciar():
         show_stats()
 
         if player.life <= 0:
-            print("Game ouver")
-            game_loop = False
+            pygame.mixer.stop()
+            bg_img = pygame.image.load('assets/game_over.png')
+            gameover = pygame.mixer.Sound("assets/audio/Gameover.ogg")
+            pygame.mixer.Sound.play(gameover)
+            while True:
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        break
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_ESCAPE:
+                            break
+
+                screen.blit(bg_img, (0, 0))
+                pygame.display.flip()
+
+                keys = pygame.key.get_pressed()
+                if keys[pygame.K_SPACE]:
+                    break
+            pygame.quit()
+            sys.exit()
 
         # Debub Monster part
         print('Debug mode')

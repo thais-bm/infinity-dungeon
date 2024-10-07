@@ -2,7 +2,6 @@ import random
 import pygame
 import sys
 import math
-
 import phase_2, phase_3, phase_5, phase_6
 
 pygame.mixer.init()
@@ -12,7 +11,7 @@ attack = pygame.mixer.Sound("assets/audio/Attack.ogg")
 hit = pygame.mixer.Sound("assets/audio/Slash.ogg")
 
 
-def iniciar():
+def iniciar(life):
     # Matriz
     maze = [
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -98,6 +97,7 @@ def iniciar():
             self.speed = 5
             self.direction = direction
             self.angle = math.radians(angle)  # Convertemos o ângulo para radianos
+            self.hit = 0
 
         def update(self):
             if self.direction == 'Down':
@@ -107,6 +107,9 @@ def iniciar():
                 self.rect.x -= self.speed
             elif self.direction == 'Right':
                 self.rect.x += self.speed
+            elif self.direction == 'Up':
+                self.rect.x += -(math.sin(self.angle)) * self.speed
+                self.rect.y += -(math.cos(self.angle)) * self.speed
 
             # Remove o projétil se sair da tela
             if (self.rect.bottom <= 0 or self.rect.top >= 624 or
@@ -119,7 +122,17 @@ def iniciar():
                     if maze[lane][col] == 1:
                         wall_rect = pygame.Rect(col * TILE_SIZE, lane * TILE_SIZE, TILE_SIZE, TILE_SIZE)
                         if self.rect.colliderect(wall_rect):
-                            self.kill()
+                            self.hit += 1
+                            if self.hit >= 2:
+                                self.kill()
+                                return
+
+                            if self.direction == 'Down':
+                                self.direction = 'Up'
+                            elif self.direction == 'Left':
+                                self.direction = 'Right'
+                            elif self.direction == 'Right':
+                                self.direction = 'Left'
 
     all_boss_projectiles = pygame.sprite.Group()
 
@@ -202,7 +215,7 @@ def iniciar():
     class Player(pygame.sprite.Sprite):
         def __init__(self):
             pygame.sprite.Sprite.__init__(self)
-            self.life = 3
+            self.life = life
             self.position = [10, 6]
             self.invulnerable = False
             self.invulnerable_timer = 0
@@ -364,11 +377,51 @@ def iniciar():
 
         show_stats()
 
+        if monster.health <= 0:
+            pygame.mixer.stop()
+            bg_img = pygame.image.load('assets/the_end.png')
+            the_end = pygame.mixer.Sound("assets/audio/Victory.ogg")
+            pygame.mixer.Sound.play(the_end)
+            while True:
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        break
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_ESCAPE:
+                            break
+
+                screen.blit(bg_img, (0, 0))
+                pygame.display.flip()
+
+                keys = pygame.key.get_pressed()
+                if keys[pygame.K_SPACE]:
+                    break
+            pygame.quit()
+            sys.exit()
+
         if player.life <= 0:
-            print("Game over")
-            game_loop = False
+            pygame.mixer.Sound.stop()
+            bg_img = pygame.image.load('assets/game_over.png')
+            gameover = pygame.mixer.Sound("assets/audio/Gameover.ogg")
+            pygame.mixer.Sound.play(gameover)
+            while True:
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        break
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_ESCAPE:
+                            break
+
+                screen.blit(bg_img, (0, 0))
+                pygame.display.flip()
+
+                keys = pygame.key.get_pressed()
+                if keys[pygame.K_SPACE]:
+                    break
+            pygame.quit()
+            sys.exit()
 
         pygame.display.update()
         pygame.time.Clock().tick(10)
 
-iniciar()
+#iniciar(20)
