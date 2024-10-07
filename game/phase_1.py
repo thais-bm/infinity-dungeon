@@ -359,10 +359,6 @@ def iniciar(life):
             pygame.quit()
             sys.exit()
 
-        # Debub Monster part
-        print('Debug mode')
-        for index, monster in enumerate(all_monsters):
-            print(f'{index} ---> X: {monster.rect.x // TILE_SIZE} and Y: {monster.rect.y // TILE_SIZE}')
 
         pygame.display.update()
         pygame.display.flip()

@@ -150,13 +150,13 @@ def iniciar(life):
                     (self.position[1] * TILE_SIZE) + (TILE_SIZE // 2)
                 )
             )
-            self.health = 50
-            self.max_health = 50
+            self.health = 40
+            self.max_health = 40
             self.current_moveset = None
             self.moveset_timer = 0
-            self.moveset_delay = 3000  # 3 segundos entre movesets
+            self.moveset_delay = 2000
             self.projectile_timer = 0
-            self.projectile_delay = 750
+            self.projectile_delay = 3000
 
         def take_damage(self):
             self.health -= 1
@@ -194,7 +194,7 @@ def iniciar(life):
                 all_boss_projectiles.add(projectile)
 
         def circle_shot(self):
-            for angle in range(0, 360, 45):
+            for angle in range(0, 360, 15):
                 projectile = BossProjectile(self.rect.centerx, self.rect.centery, 'Down', angle)
                 all_boss_projectiles.add(projectile)
 
