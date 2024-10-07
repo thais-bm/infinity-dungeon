@@ -269,7 +269,7 @@ def iniciar(life):
         # Mudanca mapa
         if player.position[0] < 3:  # top
             player.position[0] = 12
-            pygame.mixer.Sound.play(move_fx)
+            pygame.mixer.stop()
             phase_11.iniciar(player.life)
             pygame.quit()
         if player.position[0] > 12:  # Bottom

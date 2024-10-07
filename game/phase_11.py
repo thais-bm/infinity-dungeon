@@ -2,13 +2,15 @@ import random
 import pygame
 import sys
 import math
-import phase_2, phase_3, phase_5, phase_6
+
 
 pygame.mixer.init()
 move_fx = pygame.mixer.Sound("assets/audio/Move1.ogg")
 evasion = pygame.mixer.Sound("assets/audio/Evasion.ogg")
 attack = pygame.mixer.Sound("assets/audio/Attack.ogg")
 hit = pygame.mixer.Sound("assets/audio/Slash.ogg")
+
+pygame.mixer.stop()
 
 
 def iniciar(life):
@@ -301,6 +303,9 @@ def iniciar(life):
 
     # Menu loop
     game_loop = True
+    pygame.mixer.music.stop()
+    boss_theme = pygame.mixer.Sound("assets/audio/Boss_Theme.ogg")
+    pygame.mixer.Sound.play(boss_theme, loops=-1)
 
     # Map
     bg = pygame.image.load('assets/assets_wall/Map013.png').convert()
@@ -400,7 +405,7 @@ def iniciar(life):
             sys.exit()
 
         if player.life <= 0:
-            pygame.mixer.Sound.stop()
+            pygame.mixer.stop()
             bg_img = pygame.image.load('assets/game_over.png')
             gameover = pygame.mixer.Sound("assets/audio/Gameover.ogg")
             pygame.mixer.Sound.play(gameover)

@@ -18,7 +18,7 @@ SCREEN_HEIGHT = 720
 size = (SCREEN_WIDTH, SCREEN_HEIGHT)
 
 screen = pygame.display.set_mode(size)
-pygame.display.set_caption("Tower Of God")
+pygame.display.set_caption("Infinite Dungeon")
 
 # Menu loop
 main_menu = True
@@ -48,7 +48,7 @@ def how_to_play():
                 break
 
     pygame.quit()
-    phase_1.iniciar(3)
+    phase_1.iniciar(10)
     sys.exit()
 
 play_sound_played = False
