@@ -429,4 +429,4 @@ def iniciar(life):
         pygame.display.update()
         pygame.time.Clock().tick(10)
 
-#iniciar(20)
+#iniciar(10)
