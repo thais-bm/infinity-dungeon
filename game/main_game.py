@@ -1,5 +1,5 @@
 import pygame
-import phase_1
+import phase_1, phase_2, phase_3, phase_4, phase_5, phase_6, phase_7, phase_8, phase_9, phase_10, phase_11
 import sys
 
 pygame.init()
