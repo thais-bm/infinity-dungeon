@@ -3,42 +3,6 @@ import pygame
 import sys
 import phase_2, phase_3, phase_5, phase_6
 
-"""
-TO-DO LIST
-O que tá pegando
--> Player anda para as quatro direcoes
--> Não há delay de tiro
--> Colisão player parede funciona, player-monstro, monstro-monstro
--> Surge apenas 3 mosntros de forma hardcoded
-
-Da lista do professor só tem 3 mecanicas adicionadas
--> Visao TOP-DOWN
--> Personagem movimenta nas quatro direcoes
--> Personagem atira (o inimigo nao, mas n sei se os dois precisam atirar)
-
-O que falta:
--> Tiro quebrar blocos (poderia usar isso qnd a saida é uma rachadura na parede)
--> Tiro atravessa bloco e rebate na parede
-
-A parte urgente (?)
--> Deixar tudo isso linkado ao maximo a matriz (pa liberar ctrl_C e ctrl_v)
--> Desbugar o contador de vida
--> TINHA ESQUECIDO: A BALA PRECISA COLIDIR COM A PAREDE E REBATER 
--> E a bala precisa atravessar bloco, isso pode ficar pra alguma das salas
-
-Opcional
--> Animação dos boneco
--> Fade in e Fade Out
--> Levar as classes para o classes/player.py n vai precisar repetir as classes aqui presentes 0913292 vezes
--> Naturalizar a mov dos monstros hihi
-
-O QUE FOI FEITO, só que PRECISA DE TESTES
--> É possivel atirar para os lados, mas é preciso corrigir ao atirar para baixo, a bala não desaparece e fica no fundo
-    da tela ao atirar para baixo (EDIT: acho que ta corrigido)
--> Evitar que os monstros comecem a colidir entre si 
--> Adicionar colisão dos monstros com paredes
-"""
-
 pygame.mixer.init()
 move_fx = pygame.mixer.Sound("assets/audio/Move1.ogg")
 evasion = pygame.mixer.Sound("assets/audio/Evasion.ogg")
